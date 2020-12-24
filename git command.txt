@@ -20,3 +20,16 @@ git status
 
 Сохранить версию проэкта, добавив комментарий
 git commit -a -m "Часть 2.0"
+
+После создать репозиторий на гитхабе и запустить команду типа
+git remote add jsLessons https://github.com/nipiok/jsLessons.git
+(remote - удаленный сервер)
+(jsLessons - псевдоним репозитория)
+
+git branch -M main
+(Создать ветку main)
+
+git push -u jsLessons main
+(push - загрузка на заданный сервер)
+(-u запоминает путь по умолчанию)
+(main - главная ветка)
