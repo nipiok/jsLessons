@@ -1,0 +1,22 @@
+Инициализация в папку
+git init
+
+Создание файла
+echo >> README.md
+
+Первичная настройка
+git config --global/--local user.name "Ilya"
+git config --global/--local user.email mail@mail.ru
+
+Добавить файлы в индекс ситстемы контроля версий
+git add -A (Все файлы)
+git add index.html/*.html (конкретные файлы)
+
+Удалить файл
+git rm -cached <file>...
+
+Проверка новых файлов/изменений в существующих
+git status
+
+Сохранить версию проэкта, добавив комментарий
+git commit -a -m "Часть 2.0"
