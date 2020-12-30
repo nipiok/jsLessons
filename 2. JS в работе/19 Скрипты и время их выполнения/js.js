@@ -1,8 +1,16 @@
-func_break_max_pieces 0
-r_dynamic 0
-cl_detail_max_sway 0
-cl_disablefreezecam 1
-cl_disablehtmlmotd 1
-cl_forcepreload 1
-cl_freezecampanel_position_dynamic 0
-r_drawbrushmodels 0
+let timerId = setTimeout(sayHello, 3000); // Старт функции спустя 3сек, один раз
+clearTimeout(timerId); // остановить таймер
+
+let timerRepeatId = setInterval(sayHello, 3000); // Запуск функции каждые 3сек.
+clearTimeout(timerRepeatId);
+
+function sayHello() {
+   console.log('Hello World');
+}
+
+
+let timerWhileId = setTimeout(function log() {
+   console.log("hello");
+   setTimeout(log, 3000); // Рекурсивный вывод функции пр-нее, чем setInterval
+}, 3000);
+clearTimeout(timerWhileId);
