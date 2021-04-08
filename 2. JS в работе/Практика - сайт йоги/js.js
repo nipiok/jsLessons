@@ -1,49 +1,57 @@
 window.addEventListener('DOMContentLoaded', function() {
    
-   'use strict'
+   'use strict';
 
-   
    // Табы
-   let tab = document.querySelectorAll('.info-header-tab'),
-      info = document.querySelector('.info-header'),
-      tabContent = document.querySelectorAll('.info-tabcontent');
-
-   function hideTabContent(a) {
-      for (let i = a; i < tabContent.length; i++) {
-         tabContent[i].classList.remove('show');
-         tabContent[i].classList.add('hide');
+   class Tabs {
+      constructor(obj) {
+         this.wrap = document.querySelector(obj.wrap);
+         this.tabItem = document.querySelectorAll(obj.tabItem);
+         this.contentItem = document.querySelectorAll(obj.contentItem);
+      }
+      hideContentItem(a) {
+         for (let i = a; i < this.contentItem.length; i++) {
+            this.contentItem[i].classList.remove('show');
+            this.contentItem[i].classList.add('hide');
+         }
+      }
+      showContentItem (b) {
+         if (this.contentItem[b].classList.contains('hide')) {
+            this.contentItem[b].classList.remove('hide');
+            this.contentItem[b].classList.add('show');
+         }
       }
    }
 
-   hideTabContent(1);
+   let yogaTabs = new Tabs({
+      wrap: '.info',
+      tabItem: '.info-header-tab',
+      contentItem: '.info-tabcontent'
+   });
 
-   function showTabContent (b) {
-      if (tabContent[b].classList.contains('hide')) {
-         tabContent[b].classList.remove('hide');
-         tabContent[b].classList.add('show');
-      }
-   }
+   yogaTabs.hideContentItem(1);
 
-   info.addEventListener('click', function(e) {
+   yogaTabs.wrap.addEventListener('click', function(e) {
       let target = e.target;
 
       if (target && target.classList.contains('info-header-tab')) {
-         for (let i = 0; i < tab.length; i++) {
-            if (target == tab[i]) {
-               hideTabContent(0);
-               showTabContent(i);
+         for (let i = 0; i < yogaTabs.tabItem.length; i++) {
+            if (target == yogaTabs.tabItem[i]) {
+               yogaTabs.hideContentItem(0);
+               yogaTabs.showContentItem(i);
                break;
             }
          }
       }
    });
+  
 
-
+   
    // Таймер
    function getDeadline() {
       let nowYear = new Date().getFullYear(),
-      nowMounth = new Date().getMonth() + 1,
-      nowDayPlusOne = new Date().getDate() + 1;
+         nowMounth = new Date().getMonth() + 1,
+         nowDayPlusOne = new Date().getDate() + 1;
 
       if (nowMounth == 2) {
          if (nowDayPlusOne > 28) {
@@ -52,13 +60,13 @@ window.addEventListener('DOMContentLoaded', function() {
          }
       }
       if (nowMounth <= 9) {
-         nowMounth = '0' + nowMounth;
+         nowMounth = `0${nowMounth}`;
       }
       if (nowDayPlusOne <= 9) {
-         nowDayPlusOne = '0' + nowDayPlusOne;
+         nowDayPlusOne = `0${nowDayPlusOne}`;
       }
 
-      let deadline = nowYear + '-' + nowMounth + '-' + nowDayPlusOne + ':00:00:00';
+      let deadline = `${nowYear}-${nowMounth}-${nowDayPlusOne}:00:00:00`;
 
       return deadline;
    }
@@ -72,20 +80,20 @@ window.addEventListener('DOMContentLoaded', function() {
          //days = Math.floor(t / 1000 / 60 / 60 / 24);
 
       if (seconds <= 9) {
-         seconds = '0' + seconds;
+         seconds = `0${seconds}`;
       }
       if (minutes <= 9) {
-         minutes = '0' + minutes;
+         minutes = `0${minutes}`;
       }
       if (hours <= 9) {
-         hours = '0' + hours;
+         hours = `0${hours}`;
       }
 
       return {
-         'total': t,
-         'hours' : hours,
-         'minutes' : minutes,
-         'seconds' : seconds,
+         total: t,
+         hours: hours,
+         minutes: minutes,
+         seconds: seconds,
       };
    }
 
@@ -93,11 +101,12 @@ window.addEventListener('DOMContentLoaded', function() {
       let timer = document.getElementById(id),
          hours = timer.querySelector('.hours'),
          minutes = timer.querySelector('.minutes'),
-         seconds = timer.querySelector('.seconds'),
-         timeInterval = setTimeout(function interval() {
-            updateClock();
-            setTimeout(interval, 1000);
-         }, 1000);
+         seconds = timer.querySelector('.seconds');
+      
+      let timeInterval = setTimeout(function interval() {
+         updateClock();
+         setTimeout(interval, 1000);
+      }, 1000);
       
       function updateClock() {
          let t = getTimeRemaining(endtime);
@@ -116,6 +125,33 @@ window.addEventListener('DOMContentLoaded', function() {
    }
 
    setClock('timer', getDeadline());
+   
+
+
+   // Модальное окно\
+   let more = document.querySelectorAll('.more'),
+      overlay = document.querySelector('.overlay'),
+      close = document.querySelector('.popup-close');
+
+   for (let i = 0; i < more.length; i++) {
+      more[i].addEventListener('click', function() {
+         overlay.style.display = 'block';
+         this.classList.add('more-splash');
+         document.body.style.overflow = 'hidden';
+      });
+   }
+   
+   close.addEventListener('click', function() {
+      overlay.style.display = 'none';
+
+      for (let i = 0; i < more.length; i++) {
+         if (more[i].classList.contains('more-splash')) {
+            more[i].classList.remove('more-splash');
+         }
+      }
+      
+      document.body.style.overflow = '';
+   });
    
 
 });
