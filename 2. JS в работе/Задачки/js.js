@@ -14,11 +14,11 @@ class User {
       this.age = age;
    }
    showUser() {
-      alert(`Пользователь ${this.surname} ${this.name}, его возраст ${this.age}`);
+      console.log(`Пользователь ${this.surname} ${this.name}, его возраст ${this.age}`);
     }
 }
 let masha = new User('Masha', 'Valeryvna', age.getAttribute('value'));
-//masha.showUser();
+masha.showUser();
 
 
 class Options {

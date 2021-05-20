@@ -20,7 +20,7 @@ button[1].addEventListener('mouseenter', function() {
    console.log('Вы навели на вторую кнопку');
 });
 
-wrap.addEventListener('click', function() {
+wrap.addEventListener('click', function(event) {
    console.log('Произошло событие: ' + event.type + ' на элементе ' + event.target);
 }); /* При клике на .wrapper в области кнопки #btn, произойдёт всплытие
 и его события. */

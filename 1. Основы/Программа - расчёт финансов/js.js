@@ -24,14 +24,18 @@ resultFields.forEach(function(item, key) {
    }
 });
 
+
 allInput.forEach(function(item) {
    item.setAttribute('disabled', 'true');
 });
 
+countButton.setAttribute('disabled', 'disabled');
+optionalExpensesButton.setAttribute('disabled', 'disabled');
+expensesButton.setAttribute('disabled', 'disabled');
+
 
 
 let money, time;
-
 
 
 startButton.addEventListener('click', function() {
@@ -66,6 +70,9 @@ startButton.addEventListener('click', function() {
    allInput.forEach(function(item) {
       item.removeAttribute('disabled', 'disabled');
    });
+   countButton.removeAttribute('disabled', 'disabled');
+   optionalExpensesButton.removeAttribute('disabled', 'disabled');
+   expensesButton.removeAttribute('disabled', 'disabled');
 });
 
 
@@ -89,24 +96,32 @@ expensesButton.addEventListener('click', function () {
       }
    }
 
-   resultFieldsValue[3].textContent = sum;
+   if (sum == 0) {
+      resultFieldsValue[3].textContent = '';
+   } else {
+      resultFieldsValue[3].textContent = sum;
+   }
 });
+
 
 
 optionalExpensesButton.addEventListener('click', function() {
    for (let i = 0; i < expensesOptionsItems.length; i++) {
+      if (expensesOptionsItems[i].value == '' || expensesOptionsItems[i].value == null) {
+         continue;
+      }
       let a = expensesOptionsItems[i].value;
       appData.optionalExpenses[i] = a;
       resultFieldsValue[4].textContent += appData.optionalExpenses[i] + ' ';
    }
-})
+});
+
 
 
 countButton.addEventListener('click', function() {
 
-   if(appData.budjet != undefined) {
+   // if(appData.budjet != undefined) {
       appData.moneyPerDay = (appData.budjet / 30).toFixed();
-
 
       let expenses = resultFieldsValue[3].textContent;
       if (expenses == null || expenses == '') {
@@ -115,7 +130,6 @@ countButton.addEventListener('click', function() {
          resultFieldsValue[1].textContent = appData.moneyPerDay - +expenses;
       }
       
-
       if (appData.moneyPerDay <= 100) {
          resultFieldsValue[2].textContent = "Минимальный уровень достатка";
       } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
@@ -126,10 +140,9 @@ countButton.addEventListener('click', function() {
          resultFieldsValue[2].textContent = "Произошла ошибка!";
       }
 
-      
-   } else {
-      resultFieldsValue[1].textContent = "Произошла ошибка!";
-   }
+   // } else {
+   //    resultFieldsValue[1].textContent = "Произошла ошибка!";
+   // }
 
 });
 
@@ -139,40 +152,61 @@ chooseIncomeField.addEventListener('input', function() {
    let items = chooseIncomeField.value;
    appData.income = items.split(', ');
 
-   resultFieldsValue[5].textContent = appData.income;
+   appData.income.forEach(function(item, i) {
+      appData.income[i] = item.charAt(0).toUpperCase() + item.slice(1);
+   });
+   resultFieldsValue[5].textContent = appData.income.join(', ');
 });
 
 
 
 savingsChecbox.addEventListener('click', function() {
    (appData.savings == false) ? appData.savings = true : appData.savings = false;
+   let save = +savingsFieldSum.value,
+      percent = +savingsFieldPercent.value;
+
+   if (savingsFieldSum.value == '' || savingsFieldPercent.value == '') {
+      resultFieldsValue[6].textContent = 'Введите все данные';
+      resultFieldsValue[7].textContent = 'Введите все данные';
+   } else {
+      appData.monthIncome = (save/100/12*percent).toFixed(1);
+      appData.yearIncome = (save/100*percent).toFixed(1);
+      resultFieldsValue[6].textContent = appData.monthIncome;
+      resultFieldsValue[7].textContent = appData.yearIncome;
+   }
 });
-
-
 
 savingsFieldSum.addEventListener('input', function() {
    if (appData.savings == true) {
       let save = +savingsFieldSum.value,
          percent = +savingsFieldPercent.value;
 
-      appData.monthIncome = (save/100/12*percent);
-      appData.yearIncome = (save/100*percent);
-      resultFieldsValue[6].textContent = appData.monthIncome.toFixed(1);
-      resultFieldsValue[7].textContent = appData.yearIncome.toFixed(1);
+      if (savingsFieldSum.value == '' || savingsFieldPercent.value == '') {
+         resultFieldsValue[6].textContent = 'Введите все данные';
+         resultFieldsValue[7].textContent = 'Введите все данные';
+      } else {
+         appData.monthIncome = (save/100/12*percent).toFixed(1);
+         appData.yearIncome = (save/100*percent).toFixed(1);
+         resultFieldsValue[6].textContent = appData.monthIncome;
+         resultFieldsValue[7].textContent = appData.yearIncome;
+      }
    }
 });
-
-
 
 savingsFieldPercent.addEventListener('input', function() {
    if (appData.savings == true) {
       let save = +savingsFieldSum.value,
          percent = +savingsFieldPercent.value;
 
-      appData.monthIncome = (save/100/12*percent).toFixed();
-      appData.yearIncome = (save/100*percent).toFixed();
-      resultFieldsValue[6].textContent = appData.monthIncome;
-      resultFieldsValue[7].textContent = appData.yearIncome;
+      if (savingsFieldSum.value == '' || savingsFieldPercent.value == '') {
+         resultFieldsValue[6].textContent = 'Введите все данные';
+         resultFieldsValue[7].textContent = 'Введите все данные';
+      } else {
+         appData.monthIncome = (save/100/12*percent).toFixed(1);
+         appData.yearIncome = (save/100*percent).toFixed(1);
+         resultFieldsValue[6].textContent = appData.monthIncome;
+         resultFieldsValue[7].textContent = appData.yearIncome;
+      }
    }
 });
 

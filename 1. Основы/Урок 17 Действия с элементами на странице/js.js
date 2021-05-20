@@ -19,7 +19,7 @@ for (let i = 0; i < heart.length; i++) {
 
 heart.forEach(function(item, key, arr) {
    item.style.backgroundColor = "blue";
-});
+}); // Не работает, если элементы получены через getElementsByTagName
 
 
 

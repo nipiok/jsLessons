@@ -12,7 +12,7 @@ function sayHello() {
 
 let timerWhileId = setTimeout(function log() {
    console.log("hello");
-   setTimeout(log, 3000); // Рекурсивный вывод функции пр-нее, чем setInterval
+   setTimeout(log, 3000); // Рекурсивный вывод функции лучше, чем setInterval
 }, 3000);
 clearTimeout(timerWhileId);
 
@@ -29,6 +29,7 @@ function myAnimation() {
       if (pos == 300) {
          clearInterval();
       } else {
+         console.log(pos);
          pos++;
          elem.style.top = pos + 'px';
          elem.style.left = pos + 'px';
@@ -51,7 +52,7 @@ btnBlock.addEventListener('click', function(event) {
 });
 
 
-// Найти потомка с конкретным классои
+// Найти потомка с конкретным классом
 btnBlock.addEventListener('click', function(event) {
    if (event.target && event.target.classList.contains('first')) {
       console.log("hello");

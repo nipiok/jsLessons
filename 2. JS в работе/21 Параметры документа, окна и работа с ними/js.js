@@ -1,7 +1,7 @@
 let box = document.querySelector('.box'),
    btn = document.querySelectorAll('button');
 
-// Область блока включая паддинг, с вычитом скродла, полос пкрокрутки и бордера
+// Область блока включая паддинг, с вычитом скролла, полос пкрокрутки и бордера
 let width = box.clientWidth,
    height = box.clientHeight;
 
@@ -9,7 +9,7 @@ let width = box.clientWidth,
 let widthOffset = box.offsetWidth,
    heightOffset = box.offsetHeight;
 
-// Вся область блока, включая скрол (не видимую часть), но - полоса прокрутки
+// Вся область блока, включая скрол (не видимую часть), но без паддингов
 let widthScroll = box.scrollWidth,
    heightScroll = box.scrollHeight;
 
@@ -39,7 +39,7 @@ console.log(box.getBoundingClientRect());
 
 // documentElement - все сожержимое документа
 console.log(document.documentElement.clientHeight); //Высота видимой обл. стр-цы
-console.log(document.documentElement.scrollTop); //Аналогично всему выше
+console.log(document.documentElement.scrollTop); //Отступ сверху
 
 // (x, y) Прокрутить страницу на указанное колличество пикселей 
 scrollBy(0, 10);
